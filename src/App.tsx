@@ -1,27 +1,15 @@
 import './App.css'
-import { useState, useEffect } from 'react'
 import Autocomplete from '@mui/material/Autocomplete'
 import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
 import type { User, ParsedName } from './types/user'
-import {getUsers} from './services/userService'
+import {useState} from 'react'
+import {useUsers} from './hooks/useUsers'
 
 const App = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [selected, setSelected] = useState<User | null>();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getUsers()
-        setUsers(data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    }
-
-    fetchData();
-  }, []);
+  const { users}  = useUsers()
+  const [selected, setSelected] = useState<User | null>(null)
 
   const onUserSelected = (_: React.SyntheticEvent, newValue: User | null) => {
     setSelected(newValue)
