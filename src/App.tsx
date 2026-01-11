@@ -2,69 +2,31 @@ import './App.css'
 import Autocomplete from '@mui/material/Autocomplete'
 import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
-import type { User, ParsedName } from './types/user'
+import type { User } from './types/user'
 import {useState} from 'react'
 import {useUsers} from './hooks/useUsers'
+import {getFormattedName} from './utils/parseNameComponent'
 
 const App = () => {
 
-  const { users}  = useUsers()
+  const { users, loading, error }  = useUsers()
   const [selected, setSelected] = useState<User | null>(null)
 
   const onUserSelected = (_: React.SyntheticEvent, newValue: User | null) => {
     setSelected(newValue)
   }
 
-  const parseNameComponents = (name: string): ParsedName => {
-    const parts = name.split(' ');
-
-    let title = '';
-    let firstName = '';
-    let middleParts = [];
-    let lastName = '';
-    let suffix: string | undefined = '';
-
-    const titles = ['Mr.', 'Mrs.', 'Ms.', 'Dr.', 'Prof.'];
-    if (titles.some(t => parts[0]?.includes(t))) {
-      title = parts[0];
-      parts.shift();
-    }
-
-
-    const suffixes = ['Jr.', 'Sr.', 'II', 'III', 'IV', 'V'];
-    if (suffixes.some(s => parts[parts.length - 1]?.includes(s))) {
-      suffix = parts.pop();
-    }
-
-    firstName = parts[0];
-
-    lastName = parts[parts.length - 1];
-
-    middleParts = parts.slice(1, -1);
-
-    return { title, firstName, middleParts, lastName, suffix };
+  if (loading) {
+    return <div>Loading users...</div>;
   }
 
-  const getFormattedName = (name: string) => {
-    const { title, firstName, lastName, suffix } = parseNameComponents(name);
-
-    let formatted = lastName;
-    if (suffix) {
-      formatted += ` ${suffix}`;
-    }
-    formatted += `, ${firstName}`;
-    if (title) {
-      formatted += ` (${title})`;
-    }
-
-    return formatted;
+  if (error) {
+    return <div>Error: {error}</div>;
   }
-
 
   return (
     <>
       <div>
-          
           <Autocomplete
             disablePortal
             options={users}
