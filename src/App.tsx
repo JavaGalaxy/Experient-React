@@ -3,10 +3,11 @@ import { useState, useEffect } from 'react'
 import Autocomplete from '@mui/material/Autocomplete'
 import TextField from '@mui/material/TextField'
 import Box from '@mui/material/Box'
+import type { User, ParsedName } from './types/user'
 
 const App = () => {
-  const [users, setUsers] = useState<any[]>([]);
-  const [selected, setSelected] = useState<any>(null);
+  const [users, setUsers] = useState<User[]>([]);
+  const [selected, setSelected] = useState<User>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,11 +23,11 @@ const App = () => {
     fetchData();
   }, []);
 
-  const onUserSelected = (event: any, newValue: any) => {
+  const onUserSelected = (event: unknown, newValue: User) => {
     setSelected(newValue)
   }
 
-  const parseNameComponents = (name: string) => {
+  const parseNameComponents = (name: string): ParsedName => {
     const parts = name.split(' ');
 
     let title = '';
