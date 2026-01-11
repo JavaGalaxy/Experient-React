@@ -7,7 +7,7 @@ import type { User, ParsedName } from './types/user'
 
 const App = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const [selected, setSelected] = useState<User>();
+  const [selected, setSelected] = useState<User | null>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,7 +23,7 @@ const App = () => {
     fetchData();
   }, []);
 
-  const onUserSelected = (event: unknown, newValue: User) => {
+  const onUserSelected = (_: React.SyntheticEvent, newValue: User | null) => {
     setSelected(newValue)
   }
 
