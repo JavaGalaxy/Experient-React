@@ -30,16 +30,18 @@ export const parseNameComponent = (name: string): ParsedName => {
 };
 
 export const getFormattedName = (name: string) => {
-  const { title, firstName, lastName, suffix } = parseNameComponent(name);
+  const { title, firstName, middleParts, lastName, suffix } =
+    parseNameComponent(name);
 
-  let formatted = lastName;
+  let formattedLastName = [...middleParts, lastName].join(' ');
+
   if (suffix) {
-    formatted += ` ${suffix}`;
+    formattedLastName += ` ${suffix}`;
   }
-  formatted += `, ${firstName}`;
+  formattedLastName += `, ${firstName}`;
   if (title) {
-    formatted += ` (${title})`;
+    formattedLastName += ` (${title})`;
   }
 
-  return formatted;
+  return formattedLastName;
 };
