@@ -11,7 +11,12 @@ export const useUsers = () => {
     const fetchData = async () => {
       try {
         const data = await getUsers();
-        setUsers(data);
+        const sortedUsers = data.sort((a: User, b: User) => {
+          const lastNameA = a.name.split(' ').pop() || '';
+          const lastNameB = b.name.split(' ').pop() || '';
+          return lastNameA.localeCompare(lastNameB);
+        });
+        setUsers(sortedUsers);
       } catch (error) {
         console.error('Error fetching users:', error);
         setError('Failed to fetch users. Please try again.');

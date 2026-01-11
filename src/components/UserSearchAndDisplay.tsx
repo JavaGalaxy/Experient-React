@@ -23,7 +23,7 @@ export const UserSearchAndDisplay = ({
           options={users}
           value={selected}
           onChange={onUserSelected}
-          getOptionLabel={(option) => option.name}
+          getOptionLabel={(option) => getFormattedName(option.name)}
           sx={{ width: 300 }}
           renderInput={(params) => <TextField {...params} label="Name" />}
         />

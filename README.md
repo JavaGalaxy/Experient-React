@@ -28,4 +28,6 @@ npm run dev
 ## Development
 
 - Lint code: `npm run lint`
+- Fix lint issues: `npm run lint:fix`
+- Format code: `npm run format`
 - Build project: `npm run build`
